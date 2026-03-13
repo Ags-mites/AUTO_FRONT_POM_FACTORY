@@ -69,6 +69,23 @@ Las URLs se configuran en:
 
 ## Ver reporte
 
-Luego de la ejecución, abre el reporte HTML en:
+El reporte detallado de pruebas se genera automáticamente al finalizar la ejecución del comando anterior.
 
-- `target/site/serenity/index.html`
+Para visualizar el reporte, abre el archivo `index.html` ubicado en la ruta `target/site/serenity/` en tu navegador de preferencia.
+
+### Comandos para abrir el reporte rápidamente
+
+**Linux:**
+```bash
+xdg-open target/site/serenity/index.html
+```
+
+**macOS:**
+```bash
+open target/site/serenity/index.html
+```
+
+**Windows (PowerShell):**
+```powershell
+Start-Process "target/site/serenity/index.html"
+```
