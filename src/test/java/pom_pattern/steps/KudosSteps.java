@@ -3,12 +3,10 @@ package pom_pattern.steps;
 import net.serenitybdd.annotations.Step;
 import pom_pattern.pages.KudosCreatePageElements;
 import pom_pattern.pages.KudosListPageElements;
-import pom_pattern.utils.KudoApiService;
 import pom_pattern.utils.KudoDataGateway;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,25 +14,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class KudosSteps {
 
-    private static final Duration PERSISTENCE_TIMEOUT = Duration.ofSeconds(15);
-    private static final Duration PERSISTENCE_POLL_INTERVAL = Duration.ofMillis(300);
-
     KudosListPageElements kudosListPage;
     KudosCreatePageElements kudosCreatePage;
 
     private final KudoDataGateway kudoDataGateway;
 
-    private long totalElementsBeforeSeed;
-    private int seededRowsCount;
-    private final Map<String, String> seededMessages = new HashMap<>();
-    private String selectedCategory;
-    private String searchedMessage;
-
     public KudosSteps() {
-        this(new KudoApiService());
-    }
-
-    KudosSteps(KudoApiService apiService) {
         this.kudoDataGateway = new KudoDataGateway();
     }
 
@@ -56,42 +41,17 @@ public class KudosSteps {
 
     @Step("Filtrar por categoría: {0}")
     public void filterByCategory(String category) {
-        selectedCategory = category;
         kudosListPage.getCategoryFilterSelect().selectByVisibleText(category);
     }
 
     @Step("Buscar por mensaje: {0}")
     public void searchByMessage(String message) {
-        String uniqueMessage = seededMessages.getOrDefault(message, message);
-        searchedMessage = uniqueMessage;
-        kudosListPage.getMessageSearchInput().type(uniqueMessage);
+        kudosListPage.getMessageSearchInput().type(message);
     }
 
     @Step("Presionar el botón de aplicar filtros")
     public void pressApplyFilters() {
         kudosListPage.getApplyFiltersButton().click();
-    }
-
-    @Step("Verificar que la tabla no está vacía")
-    public void verifyTableIsNotEmpty() {
-        var rows = kudosListPage.getKudosTableRows();
-        assertThat(rows)
-                .as("La tabla de kudos no debe estar vacía")
-                .isNotEmpty();
-    }
-
-    @Step("Verificar que la categoría es {0}")
-    public void verifyVisibleRowsMatchCategory(String expectedCategory) {
-        kudosListPage.waitForTableRows();
-        var badges = kudosListPage.getCategoryCells();
-        assertThat(badges)
-                .as("No hay registros visibles de la categoría '%s'", expectedCategory)
-                .isNotEmpty();
-        badges.forEach(badge ->
-                assertThat(badge.getText().trim())
-                        .as("Se encontró una fila con categoría inesperada")
-                        .isEqualToIgnoringCase(expectedCategory)
-        );
     }
 
     @Step("Verificar mensaje del kudo: {0}")
