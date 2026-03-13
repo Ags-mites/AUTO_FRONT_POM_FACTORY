@@ -122,7 +122,6 @@ public class KudosSteps {
                 .contains(currentYear);
     }
 
-    // Steps para Create Kudos
     @Step("Ir a la página de creación de Kudos")
     public void goToCreatePage() {
         kudosCreatePage.goToCreatePage();

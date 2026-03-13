@@ -18,7 +18,6 @@ public class ListarKudosStepDefinition {
 
     @Dado("que el sistema SofkianOS se encuentra operativo")
     public void queElSistemaSofkianOSSeEncuentraOperativo() {
-        // No necesita acción
     }
 
     @Y("el usuario accede a la URL del {string}")
@@ -35,7 +34,6 @@ public class ListarKudosStepDefinition {
 
     @Y("la respuesta del servicio es exitosa \\({int} Accepted\\)")
     public void laRespuestaDelServicioEsExitosa(int expectedStatus) {
-        // Verificación implícita por el código 202
     }
 
     @Cuando("el empleado filtra la lista por la categoría {string}")
