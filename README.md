@@ -1,69 +1,74 @@
-# QA Frontend POM - Pruebas Automatizadas
+# QA Frontend POM
 
-Proyecto de automatización de pruebas E2E funcionales para frontend usando el patrón **Page Object Model (POM)**.
+Proyecto de automatización de pruebas E2E para frontend usando el patrón **Page Object Model (POM)** con **Serenity BDD** y **Cucumber**.
 
-Este proyecto está construido con:
-- Java
+## Tecnologías
+
+- Java 17
 - Gradle
-- Cucumber
 - Serenity BDD
-- JUnit
+- Cucumber
+- JUnit 5
 
-## Requisitos previos
+## Prerrequisitos
 
-- Java 17 (o versión compatible con el proyecto)
-- Docker y Docker Compose
+- JDK 17 instalado
 - Git
+- Docker y Docker Compose
 
 ## Preparación del entorno
 
-1. Clonar este repositorio.
-2. Clonar también el repositorio necesario para el entorno de pruebas:
+Antes de ejecutar las pruebas, necesitas levantar el entorno del MVP:
+
+1. Clona el repositorio del MVP:
 
 ```bash
 git clone https://github.com/ElyRiven/sofkianos-mvp
 ```
 
-3. Entrar al proyecto clonado (`sofkianos-mvp`) y levantar los servicios con Docker:
+2. Levanta los servicios:
 
 ```bash
+cd sofkianos-mvp
 docker compose up -d
 ```
 
-Cuando los servicios estén arriba, ya puedes continuar con las pruebas desde este proyecto.
-
 ## Ejecución de pruebas
 
-Desde la raíz de este proyecto (`qa-frontend-pom`), ejecutar:
+Desde la raíz del proyecto:
+
+### Linux / macOS
 
 ```bash
-./gradlew clean test
+./gradlew clean test aggregate
 ```
 
-Si deseas ejecutar por runner, puedes usar:
+### Windows (PowerShell)
+
+```powershell
+.\gradlew.bat clean test aggregate
+```
+
+### Ejecutar un runner específico
 
 ```bash
 ./gradlew test --tests "pom_pattern.runners.KudosTestRunner"
 ```
 
-Opcionalmente, para generar/consultar reportes de Serenity:
+## Configuración
 
-```bash
-./gradlew reports
-```
-
-Los resultados y reportes se generan en carpetas como `target/site/serenity` y `build/reports`.
-
-## Configuración de URLs
-
-Las URLs del frontend y servicios API se configuran en:
+Las URLs se configuran en:
 
 - `src/test/resources/serenity.conf`
 
-Propiedades principales:
+| Propiedad | Valor por defecto |
+|-----------|-------------------|
+| webdriver.base.url | http://localhost:5173 |
+| api.producer.base.url | http://localhost:8082 |
+| api.consumer.base.url | http://localhost:8081 |
 
-- `webdriver.base.url`: URL del frontend (por defecto `http://localhost:5173`)
-- `api.producer.base.url`: URL API producer (por defecto `http://localhost:8082`)
-- `api.consumer.base.url`: URL API consumer (por defecto `http://localhost:8081`)
+## Ver reporte
 
-Si necesitas otro entorno, cambia estos valores en `serenity.conf` antes de ejecutar las pruebas.
+Luego de la ejecución, abre el reporte HTML en:
+
+- `target/site/serenity/index.html`
