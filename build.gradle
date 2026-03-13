@@ -66,6 +66,11 @@ test {
     systemProperties System.properties
 }
 
+serenity {
+    outputDirectory = file("target/site/serenity")
+    reports = ["single-page-html"]
+}
+
 gradle.startParameter.continueOnFailure = true
 
 test.finalizedBy(aggregate)
